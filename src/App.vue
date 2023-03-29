@@ -47,10 +47,10 @@ export default {
     },
     load() {
       Promise.all([
-        this.$axios.get("http://localhost:3000/siswa"),
-        this.$axios.get("http://localhost:3000/jenisKelamin"),
-        this.$axios.get("http://localhost:3000/jurusan"),
-        this.$axios.get("http://localhost:3000/hobby"),
+        this.$axios.get("https://nama-proyek.vercel.app/siswa"),
+        this.$axios.get("https://nama-proyek.vercel.app/jenisKelamin"),
+        this.$axios.get("https://nama-proyek.vercel.app/jurusan"),
+        this.$axios.get("https://nama-proyek.vercel.app/hobby"),
       ])
         .then(([siswaRes, jenisKelaminRes, jurusanRes, hobbyRes]) => {
           this.dataSiswa = siswaRes.data;
