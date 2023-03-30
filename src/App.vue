@@ -47,10 +47,10 @@ export default {
     },
     load() {
       Promise.all([
-        this.$axios.get("https://fake-restapi-datasiswa.vercel.app/siswa"),
-        this.$axios.get("https://fake-restapi-datasiswa.vercel.app/jenisKelamin"),
-        this.$axios.get("https://fake-restapi-datasiswa.vercel.app/jurusan"),
-        this.$axios.get("https://fake-restapi-datasiswa.vercel.app/hobby"),
+        this.$axios.get("http://localhost:3000/siswa"),
+        this.$axios.get("http://localhost:3000/jenisKelamin"),
+        this.$axios.get("http://localhost:3000/jurusan"),
+        this.$axios.get("http://localhost:3000/hobby"),
       ])
         .then(([siswaRes, jenisKelaminRes, jurusanRes, hobbyRes]) => {
           this.dataSiswa = siswaRes.data;
@@ -63,13 +63,13 @@ export default {
         });
     },
     addData(datas) {
-      this.$axios.post("https://fake-restapi-datasiswa.vercel.app/siswa/", datas).then((siswaRes) => {
+      this.$axios.post("http://localhost:3000/siswa/", datas).then((siswaRes) => {
         this.load();
       });
     },
     updateData(datas) {
       return this.$axios
-        .put("https://fake-restapi-datasiswa.vercel.app/siswa/" + datas.id, { nisn: datas.nisn, nama: datas.nama, jenisKelaminId: datas.jenisKelaminId, jurusanId: datas.jurusanId, hobbyId : datas.hobbyId })
+        .put("http://localhost:3000/siswa/" + datas.id, { nisn: datas.nisn, nama: datas.nama, jenisKelaminId: datas.jenisKelaminId, jurusanId: datas.jurusanId, hobbyId : datas.hobbyId })
         .then((siswaRes) => {
           this.load();
         })
@@ -78,7 +78,7 @@ export default {
         });
       },
       deleteData(datas){
-        this.$axios.delete("https://fake-restapi-datasiswa.vercel.app/siswa/" + datas.id).then((res) => {
+        this.$axios.delete("http://localhost:3000/siswa/" + datas.id).then((res) => {
           this.load();
           let index = this.dataSiswa.indexOf(datas.id);
           this.dataSiswa.splice(index, 1);

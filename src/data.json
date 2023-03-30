@@ -42,15 +42,15 @@
       ]
     },
     {
-      "nisn": "56735242516",
-      "nama": "Dino Hernanto Nugraha",
+      "id": 5,
+      "nisn": "234353636",
+      "nama": "Dino",
       "jenisKelaminId": 1,
       "jurusanId": 2,
       "hobbyId": [
-        2,
+        1,
         3
-      ],
-      "id": 5
+      ]
     }
   ],
   "jenisKelamin": [
