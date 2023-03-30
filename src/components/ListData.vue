@@ -1,10 +1,10 @@
 <template>
     <div class="p-10 max-w-full my-20 rounded-xl shadow-lg m-2 bg-white">
-        <div class="flex items-center justify-between my-4">
-            <h1 class="text-2xl font-bold inline-block">Data Siswa</h1>
-            <img  src="../../public/images/student.png" alt="student">
-            <span class="ml-auto">
-                <button class="bg-green-500 hover:bg-green-700 hover:ring-2 hover:ring-green-500  px-2 py-2 text-white rounded-md" @click="addFormCreate">Tambah Data</button>
+        <div class="flex items-center overflow-x-auto justify-between my-4">
+            <h1 class="max-w-max text-2xl font-bold inline-block">Data Siswa</h1>
+            <img class="mr-2 max-w-max" src="../../public/images/student.png" alt="student">
+            <span class="ml-auto max-w-max">
+                <button class=" max-w-max bg-green-500 hover:bg-green-700 hover:ring-2 hover:ring-green-500  px-2 py-2 text-white rounded-md" @click="addFormCreate">Tambah Data</button>
             </span>
         </div>
         <div class="max-w-max overflow-x-auto border-4 rounded-lg shadow-lg mt-2 mb-4">
