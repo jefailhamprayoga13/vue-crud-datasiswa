@@ -15,6 +15,7 @@ import FormUpdate from './components/FormUpdateData.vue'
 </template>
 
 <script>
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -65,6 +66,12 @@ export default {
     addData(datas) {
       this.$axios.post("http://localhost:3000/siswa/", datas).then((siswaRes) => {
         this.load();
+        Swal.fire({
+          icon: "success",
+          title: "Data Berhasil Ditambahkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
     },
     updateData(datas) {
@@ -72,6 +79,12 @@ export default {
         .put("http://localhost:3000/siswa/" + datas.id, { nisn: datas.nisn, nama: datas.nama, jenisKelaminId: datas.jenisKelaminId, jurusanId: datas.jurusanId, hobbyId : datas.hobbyId })
         .then((siswaRes) => {
           this.load();
+          Swal.fire({
+            icon: "success",
+            title: "Data Berhasil Diupdate",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -82,6 +95,12 @@ export default {
           this.load();
           let index = this.dataSiswa.indexOf(datas.id);
           this.dataSiswa.splice(index, 1);
+          Swal.fire({
+          icon: 'success',
+          title: 'Data Berhasil Dihapus',
+          showConfirmButton: false,
+          timer: 1500
+        });
         })
       }
   },

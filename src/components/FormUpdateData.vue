@@ -77,7 +77,6 @@ import BaseRadio from "./form/BaseRadio.vue";
 import BaseSelect from "./form/BaseSelect.vue";
 import BaseCheckbox from "./form/BaseCheckbox.vue";
 
-import Swal from "sweetalert2";
 
 export default {
   props: ["dataSiswa", "jenisKelamin", "jurusan", "hobby", "siswaUpdate"],
@@ -114,12 +113,8 @@ export default {
         this.siswaUpdate.jurusanId = parseInt(this.siswaUpdate.jurusanId);
         const datas = this.siswaUpdate;
         this.$emit("update-data", datas);
-        Swal.fire({
-          icon: "success",
-          title: "Data Berhasil Diupdate",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+
+        
         this.siswaUpdate.nisn = "";
         this.siswaUpdate.nama = "";
         this.siswaUpdate.jenisKelaminId = [];

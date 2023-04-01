@@ -42,14 +42,24 @@
       ]
     },
     {
-      "id": 5,
       "nisn": "234353636",
-      "nama": "Dino",
+      "nama": "Dino Hermana",
       "jenisKelaminId": 1,
       "jurusanId": 2,
       "hobbyId": [
         1,
         3
+      ],
+      "id": 5
+    },
+    {
+      "id": 6,
+      "nisn": "28482164861",
+      "nama": "Hermanto",
+      "jenisKelaminId": 1,
+      "jurusanId": 3,
+      "hobbyId": [
+        2
       ]
     }
   ],

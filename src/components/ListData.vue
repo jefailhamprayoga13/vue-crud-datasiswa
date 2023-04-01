@@ -38,7 +38,6 @@
 
 
 <script>
-import Swal from 'sweetalert2';
 export default {
     props: {
         dataSiswa: {
@@ -75,12 +74,6 @@ export default {
         deleteData(siswa) {
             const datas = siswa
             this.$emit('del-data', datas);
-            Swal.fire({
-                icon: 'success',
-                title: 'Data Berhasil Dihapus',
-                showConfirmButton: false,
-                timer: 1500
-            });
         }
     },
     computed: {

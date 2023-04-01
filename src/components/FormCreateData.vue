@@ -72,7 +72,6 @@ import BaseRadio from "./form/BaseRadio.vue";
 import BaseSelect from "./form/BaseSelect.vue";
 import BaseCheckbox from "./form/BaseCheckbox.vue";
 
-import Swal from "sweetalert2";
 
 export default {
   props: ["dataSiswa", "jenisKelamin", "jurusan", "hobby"],
@@ -117,12 +116,6 @@ export default {
         this.form.jurusanId = parseInt(this.form.jurusanId);
         const datas = this.form;
         this.$emit("add-data", datas);
-        Swal.fire({
-          icon: "success",
-          title: "Data Berhasil Ditambahkan",
-          showConfirmButton: false,
-          timer: 1500,
-        });
         this.form = {};
 
         this.closeForm = false;
