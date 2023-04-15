@@ -1,51 +1,38 @@
-<script setup>
-import ListData from './components/ListData.vue'
-import FormCreate from './components/FormCreateData.vue'
-import FormUpdate from './components/FormUpdateData.vue'
-</script>
-
 <template>
-  <div class="max-w-max mx-auto">
-    <div class="md:flex">
-      <ListData :dataSiswa="dataSiswa" :jenisKelamin="jenisKelamin" :jurusan="jurusan" :hobby="hobby" @add-form-c="addFormCreate" @add-form-u="addFormUpdate" @del-data="deleteData"></ListData>
-      <FormCreate :hidden="!formCreate" :dataSiswa="dataSiswa" :jenisKelamin="jenisKelamin" :jurusan="jurusan" :hobby="hobby" @add-data="addData" @rmv-form="removeFormCreate"></FormCreate>
-      <FormUpdate :hidden="!formUpdate" :siswaUpdate="siswaUpdate" :dataSiswa="dataSiswa" :jenisKelamin="jenisKelamin" :jurusan="jurusan" @update-data="updateData" :hobby="hobby"  @rmv-form="removeFormUpdate"></FormUpdate>
+  <div>
+    <NavigationBar></NavigationBar>
+    <div class="bg-indigo-500 max-w-full pt-12 h-80">
+      <h1 class="text-center text-2xl text-white font-bold ">- {{ $route.meta.title }} -</h1>
     </div>
+    <div class="container max-w-5xl mx-auto">
+        <router-view class="mx-auto  -mt-40 rounded-xl " />
+    </div>
+    <footer class="max-w-5xl py-4 text-center">
+      <div class="container">
+        <span class="text-lg">
+          &copy; 2023 My Company. All rights reserved.
+        </span>
+      </div>
+    </footer>
   </div>
 </template>
-
 <script>
-import Swal from "sweetalert2";
+import NavigationBar from "./components/NavigationBar.vue";
 export default {
   data() {
     return {
-      formCreate: false,
-      formUpdate: false,
-      dataSiswa:[],
+      dataSiswa: [],
       jenisKelamin: [],
       jurusan: [],
       hobby: [],
-      siswaUpdate : [],
+      showMenu: false,
     }
   },
   mounted() {
     this.load();
   },
-
+  components : {NavigationBar},
   methods: {
-    addFormCreate(index) {
-      this.formCreate = index;
-    },
-    removeFormCreate(index) {
-      this.formCreate = index;
-    },
-    addFormUpdate(index,datas) {
-      this.formUpdate = index;
-      this.siswaUpdate = datas;
-    },
-    removeFormUpdate(index) {
-      this.formUpdate = index;
-    },
     load() {
       Promise.all([
         this.$axios.get("http://localhost:3000/siswa"),
@@ -63,48 +50,7 @@ export default {
           console.log(err);
         });
     },
-    addData(datas) {
-      this.$axios.post("http://localhost:3000/siswa/", datas).then((siswaRes) => {
-        this.load();
-        Swal.fire({
-          icon: "success",
-          title: "Data Berhasil Ditambahkan",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      });
-    },
-    updateData(datas) {
-      return this.$axios
-        .put("http://localhost:3000/siswa/" + datas.id, { nisn: datas.nisn, nama: datas.nama, jenisKelaminId: datas.jenisKelaminId, jurusanId: datas.jurusanId, hobbyId : datas.hobbyId })
-        .then((siswaRes) => {
-          this.load();
-          Swal.fire({
-            icon: "success",
-            title: "Data Berhasil Diupdate",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      },
-      deleteData(datas){
-        this.$axios.delete("http://localhost:3000/siswa/" + datas.id).then((res) => {
-          this.load();
-          let index = this.dataSiswa.indexOf(datas.id);
-          this.dataSiswa.splice(index, 1);
-          Swal.fire({
-          icon: 'success',
-          title: 'Data Berhasil Dihapus',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        })
-      }
   },
 }
 </script>
-
 

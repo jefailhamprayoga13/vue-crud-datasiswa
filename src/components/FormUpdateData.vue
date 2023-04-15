@@ -16,7 +16,7 @@
         <BaseInput
           label="Id : "
           type="number"
-          v-model="siswaUpdate.id"
+          v-model="dataSiswa.id"
           hidden
         />
       </div>
@@ -24,7 +24,7 @@
         <BaseInput
           label="NISN : "
           type="number"
-          v-model="siswaUpdate.nisn"
+          v-model="dataSiswa.nisn"
           :error="errors['nisn']"
         />
       </div>
@@ -32,7 +32,7 @@
         <BaseInput
           label="Nama Lengkap : "
           type="text"
-          v-model="siswaUpdate.nama"
+          v-model="dataSiswa.nama"
           :error="errors['nama']"
         />
       </div>
@@ -40,14 +40,14 @@
         <BaseRadio
           :jenisKelamin="jenisKelamin"
           label="Jenis Kelamin : "
-          v-model="siswaUpdate.jenisKelaminId"
+          v-model="dataSiswa.jenisKelaminId"
           :error="errors['jenisKelamin']"
         />
       </div>
       <div class="block max-w-full mb-3">
         <BaseSelect
           label="Jurusan : "
-          v-model="siswaUpdate.jurusanId"
+          v-model="dataSiswa.jurusanId"
           :jurusan="jurusan"
           placeholder="Pilih Jurusan"
           :error="errors['jurusan']"
@@ -56,7 +56,7 @@
       <div class="block max-w-full mb-3">
         <BaseCheckbox
           label="Hobby : "
-          v-model="siswaUpdate.hobbyId"
+          v-model="dataSiswa.hobbyId"
           :hobby="hobby"
           :error="errors['hobby']"
         />
@@ -77,53 +77,81 @@ import BaseRadio from "./form/BaseRadio.vue";
 import BaseSelect from "./form/BaseSelect.vue";
 import BaseCheckbox from "./form/BaseCheckbox.vue";
 
+import Swal from "sweetalert2";
 
 export default {
-  props: ["dataSiswa", "jenisKelamin", "jurusan", "hobby", "siswaUpdate"],
   data() {
     return {
       closeForm: true,
+      dataSiswa: {},
+      jenisKelamin: [],
+      jurusan: [],
+      hobby: [],
       errors: {},
+
     };
   },
+  mounted() {
+        this.load();
+    },
   methods: {
     closeFormUpdate() {
-      this.closeForm = false;
-      const clsForm = this.closeForm;
-      this.$emit("rmv-form", clsForm);
+      this.load();
+      this.$router.push('/siswa')
+    },
+    load() {
+      Promise.all([
+        this.$axios.get(`http://localhost:3000/siswa/${this.$route.params.id}`),
+        this.$axios.get("http://localhost:3000/jenisKelamin"),
+        this.$axios.get("http://localhost:3000/jurusan"),
+        this.$axios.get("http://localhost:3000/hobby"),
+      ])
+        .then(([siswaRes, jenisKelaminRes, jurusanRes, hobbyRes]) => {
+          this.dataSiswa = siswaRes.data;
+          this.jenisKelamin = jenisKelaminRes.data;
+          this.jurusan = jurusanRes.data;
+          this.hobby = hobbyRes.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     updateData() {
       this.errors = {};
-      if (!this.siswaUpdate.nisn) {
+      if (!this.dataSiswa.nisn) {
         this.errors.nisn = ["NISN tidak boleh kosong !"];
       }
-      if (!this.siswaUpdate.nama) {
+      if (!this.dataSiswa.nama) {
         this.errors.nama = ["Nama Lengkap tidak boleh kosong !"];
       }
-      if (!this.siswaUpdate.jenisKelaminId) {
+      if (!this.dataSiswa.jenisKelaminId) {
         this.errors.jenisKelamin = ["Jenis Kelamin tidak boleh kosong !"];
       }
-      if (!this.siswaUpdate.jurusanId) {
+      if (!this.dataSiswa.jurusanId) {
         this.errors.jurusan = ["Jurusan tidak boleh kosong !"];
       }
-      if (this.siswaUpdate.hobbyId.length === 0) {
+      if (this.dataSiswa.hobbyId.length === 0) {
         this.errors.hobby = ["Hobby tidak boleh kosong !"];
       }
       if (Object.keys(this.errors).length === 0) {
-        this.siswaUpdate.jurusanId = parseInt(this.siswaUpdate.jurusanId);
-        const datas = this.siswaUpdate;
-        this.$emit("update-data", datas);
-
-        
-        this.siswaUpdate.nisn = "";
-        this.siswaUpdate.nama = "";
-        this.siswaUpdate.jenisKelaminId = [];
-        this.siswaUpdate.jurusanId = [];
-        this.siswaUpdate.hobbyId = [];
-
-        this.closeForm = false;
-        const clsForm = this.closeForm;
-        this.$emit("rmv-form", clsForm);
+        this.dataSiswa.jurusanId = parseInt(this.dataSiswa.jurusanId);
+        const datas = this.dataSiswa;
+        return this.$axios
+          .put("http://localhost:3000/siswa/" + datas.id, { nisn: datas.nisn, nama: datas.nama, jenisKelaminId: datas.jenisKelaminId, jurusanId: datas.jurusanId, hobbyId: datas.hobbyId })
+          .then((siswaRes) => {
+            this.form = {};
+            this.load();
+            this.$router.push('/siswa')
+            Swal.fire({
+              icon: "success",
+              title: "Data Berhasil Diupdate",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+        });
       }
     },
   },

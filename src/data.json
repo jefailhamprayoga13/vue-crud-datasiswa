@@ -53,14 +53,14 @@
       "id": 5
     },
     {
-      "id": 6,
       "nisn": "28482164861",
-      "nama": "Hermanto",
+      "nama": "Hermanto Janoko",
       "jenisKelaminId": 1,
       "jurusanId": 3,
       "hobbyId": [
         2
-      ]
+      ],
+      "id": 6
     }
   ],
   "jenisKelamin": [

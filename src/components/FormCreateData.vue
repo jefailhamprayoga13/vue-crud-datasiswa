@@ -1,13 +1,9 @@
 <template>
   <div
-    class="p-10 relative max-w-full my-20 min-w-fit rounded-xl shadow-lg m-2 bg-white"
-  >
-    <button
-      class="absolute translate-x-5 font-mono rounded-full text-2xl -translate-y-6 top-0 right-0 bg-red-500 font-bold hover:bg-red-700 hover:ring-2 hover:ring-red-500 px-4 py-2 text-white"
-      @click="closeFormCreate"
+      class="p-10 relative max-w-full  min-w-fit rounded-xl shadow-lg m-2 bg-white"
     >
-      X
-    </button>
+      <button
+        class="absolute translate-x-5 font-mono rounded-full text-2xl -translate-y-6 top-0 right-0 bg-red-500 font-bold hover:bg-red-700 hover:ring-2 hover:ring-red-500 px-4 py-2 text-white" @click="closeFormCreate">X</button>
     <div class="flex items-center justify-between">
       <h1 class="text-2xl font-bold inline-block">Tambah Data Siswa</h1>
     </div>
@@ -72,11 +68,15 @@ import BaseRadio from "./form/BaseRadio.vue";
 import BaseSelect from "./form/BaseSelect.vue";
 import BaseCheckbox from "./form/BaseCheckbox.vue";
 
+import Swal from "sweetalert2";
 
 export default {
-  props: ["dataSiswa", "jenisKelamin", "jurusan", "hobby"],
   data() {
     return {
+      dataSiswa: [],
+      jenisKelamin: [],
+      jurusan: [],
+      hobby: [],
       form: {
         id: "",
         nisn: "",
@@ -89,11 +89,26 @@ export default {
       errors: {},
     };
   },
+  mounted() {
+    this.load();
+  },
   methods: {
-    closeFormCreate() {
-      this.closeForm = false;
-      const clsForm = this.closeForm;
-      this.$emit("rmv-form", clsForm);
+    load() {
+      Promise.all([
+        this.$axios.get("http://localhost:3000/siswa"),
+        this.$axios.get("http://localhost:3000/jenisKelamin"),
+        this.$axios.get("http://localhost:3000/jurusan"),
+        this.$axios.get("http://localhost:3000/hobby"),
+      ])
+        .then(([siswaRes, jenisKelaminRes, jurusanRes, hobbyRes]) => {
+          this.dataSiswa = siswaRes.data;
+          this.jenisKelamin = jenisKelaminRes.data;
+          this.jurusan = jurusanRes.data;
+          this.hobby = hobbyRes.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     addData() {
       this.errors = {};
@@ -115,14 +130,24 @@ export default {
       if (Object.keys(this.errors).length === 0) {
         this.form.jurusanId = parseInt(this.form.jurusanId);
         const datas = this.form;
-        this.$emit("add-data", datas);
+        this.$axios.post("http://localhost:3000/siswa/", datas).then((siswaRes) => {
+          this.load();
+          Swal.fire({
+            icon: "success",
+            title: "Data Berhasil Ditambahkan",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
         this.form = {};
-
-        this.closeForm = false;
-        const clsForm = this.closeForm;
-        this.$emit("rmv-form", clsForm);
+        this.load();
+        this.$router.push('/siswa')
       }
     },
+    closeFormCreate(){
+      this.load();
+      this.$router.push('/siswa')
+    }
   },
   components: { BaseInput, BaseRadio, BaseSelect, BaseCheckbox },
 };
