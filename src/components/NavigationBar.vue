@@ -20,11 +20,11 @@
                 <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
                 <ul :class="showMenu ? 'flex' : 'hidden'"
                     class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0">
-                    <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-125 duration-200"><router-link to="/"
+                    <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-110 duration-200"><router-link to="/"
                             exact-active-class="text-white bg-blue-800 px-4 py-2 rounded-md ">Home</router-link></li>
-                    <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-125 duration-200"><router-link :to="{ name: 'about' }"
+                    <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-110 duration-200"><router-link :to="{ name: 'about' }"
                             exact-active-class="text-white bg-blue-800 px-4 py-2 rounded-md">About</router-link></li>
-                    <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-125 duration-200"><router-link :to="{ name: 'siswa' }"
+                    <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-110 duration-200"><router-link :to="{ name: 'siswa' }"
                                 exact-active-class="text-white bg-blue-800 px-4 py-2 rounded-md">Siswa</router-link></li>
                 </ul>
             </nav>
