@@ -102,5 +102,15 @@
       "id": 3,
       "value": "Voly"
     }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin123"
+    },
+    {
+      "username": "user",
+      "password": "user123"
+    }
   ]
 }

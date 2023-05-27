@@ -26,6 +26,7 @@
                             exact-active-class="text-white bg-blue-800 px-4 py-2 rounded-md">About</router-link></li>
                     <li class="text-sm font-bold text-gray-300 hover:text-white hover:scale-110 duration-200"><router-link :to="{ name: 'siswa' }"
                                 exact-active-class="text-white bg-blue-800 px-4 py-2 rounded-md">Siswa</router-link></li>
+                    <li class="text-sm font-bold text-white px-4 py-2 rounded-md  bg-red-500 hover:text-white hover:scale-110 duration-200"><button @click="logout">Logout</button></li>
                 </ul>
             </nav>
         </div>
@@ -38,6 +39,18 @@ export default{
         return{
             showMenu : false,
         };
+    },
+    methods: {
+        logout() {
+            // Hapus token dari local storage
+            localStorage.removeItem("token");
+
+            // Hapus token dari Vuex store
+            this.$store.dispatch("setToken", null);
+
+            // Arahkan kembali ke halaman login
+            this.$router.push("/login");
+        },
     },
 }
 </script>
