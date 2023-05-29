@@ -12,6 +12,10 @@ Aplikasi CRUD sederhana menggunakan fake restapi json server
 * Ketikkan perintah berikut pada terminal : **npm install**
 * Lalu projek siap di run, tinggal ketikkan perintah **npm run dev**
 
+# Demo
+* Username : admin
+* Password : admin123
+
 
 ## Recommended IDE Setup
 
